@@ -1,6 +1,6 @@
 # Lakehouse Discovery Questionnaire
 
-A static HTML/CSS/JavaScript discovery form for the Lake House Rental Web App. Responses autosave to `localStorage` and submit to Cloud Firestores.
+A static HTML/CSS/JavaScript discovery form for the Lake House Rental Web App. Responses autosave to `localStorage` and submit to Cloud Firestore.
 
 ## Features
 
