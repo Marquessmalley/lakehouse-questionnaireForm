@@ -1,0 +1,42 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /discoveryQuestionnaires/{docId} {
+      allow create: if isValidSubmission(request.resource.data);
+      allow read, update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+function isValidSubmission(data) {
+  return data.keys().hasAll([
+        'schemaVersion',
+        'status',
+        'submittedAt',
+        'clientBudget',
+        'guestAccountBooking',
+        'propertyRules',
+        'availability',
+        'payments',
+        'pricingRules',
+        'propertyDetails'
+      ])
+      && data.schemaVersion == 2
+      && data.status == 'submitted'
+      && data.submittedAt is string
+      && data.clientBudget is map
+      && data.guestAccountBooking is map
+      && data.propertyRules is map
+      && data.availability is map
+      && data.payments is map
+      && data.pricingRules is map
+      && data.propertyDetails is map
+      && data.clientBudget.keys().hasAll(['budgetRange', 'budgetType'])
+      && data.clientBudget.budgetRange is string
+      && data.clientBudget.budgetType is string;
+}

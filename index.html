@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lakehouse Discovery Questionnaire</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <p class="eyebrow">Lake House Rental Web App</p>
+        <h1>Discovery Questionnaire</h1>
+        <p class="lede">
+          Help us understand your vision for the lake house rental experience. Your answers
+          autosave as you go.
+        </p>
+        <div class="progress" aria-label="Form progress">
+          <div class="progress__track">
+            <div class="progress__bar" id="progress-bar"></div>
+          </div>
+          <span class="progress__text" id="progress-text">0% complete</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout container">
+      <nav class="section-nav" id="section-nav" aria-label="Form sections"></nav>
+
+      <main>
+        <div id="firebase-banner" class="banner banner--warning" hidden></div>
+        <div id="status-banner" class="banner banner--info" hidden></div>
+        <div id="success-banner" class="banner banner--success" hidden></div>
+
+        <div id="error-panel" class="message-panel message-panel--error" hidden>
+          <h2>Please fix the following</h2>
+          <ul id="error-list"></ul>
+        </div>
+
+        <div id="warning-panel" class="message-panel message-panel--warning" hidden>
+          <h2>Suggestions</h2>
+          <ul id="warning-list"></ul>
+        </div>
+
+        <form id="discovery-form" novalidate>
+          <!-- Section 1: Client Budget -->
+          <section class="form-section" id="client-budget">
+            <h2>Client Budget &amp; Project Spend</h2>
+
+            <fieldset>
+              <legend>What is your approximate budget range for this project?</legend>
+              <label class="choice"><input type="radio" name="budgetRange" value="under_5k" required /> Under $5,000</label>
+              <label class="choice"><input type="radio" name="budgetRange" value="5k_10k" /> $5,000 – $10,000</label>
+              <label class="choice"><input type="radio" name="budgetRange" value="10k_25k" /> $10,000 – $25,000</label>
+              <label class="choice"><input type="radio" name="budgetRange" value="25k_50k" /> $25,000 – $50,000</label>
+              <label class="choice"><input type="radio" name="budgetRange" value="50k_plus" /> $50,000+</label>
+              <label class="choice"><input type="radio" name="budgetRange" value="not_sure" /> Not sure yet</label>
+            </fieldset>
+
+            <p id="budget-not-sure-helper" class="helper helper--warning" hidden></p>
+
+            <label class="field" for="targetSpend">
+              How much are you looking to spend on this project? (specific target, USD)
+              <input type="number" id="targetSpend" name="targetSpend" min="0" step="100" placeholder="e.g. 15000" />
+            </label>
+
+            <fieldset>
+              <legend>Is this a one-time build budget or does it include ongoing costs?</legend>
+              <label class="choice"><input type="radio" name="budgetType" value="one_time_only" required /> One-time build only</label>
+              <label class="choice"><input type="radio" name="budgetType" value="includes_ongoing" /> Includes ongoing costs (hosting, maintenance, etc.)</label>
+              <label class="choice"><input type="radio" name="budgetType" value="unsure" /> Not sure yet</label>
+            </fieldset>
+
+            <label class="field" for="budgetNotes">
+              Any budget constraints, phasing, or priorities we should know?
+              <textarea id="budgetNotes" name="budgetNotes" rows="4" placeholder="Optional — e.g. phased rollout, must-haves vs nice-to-haves"></textarea>
+            </label>
+          </section>
+
+          <!-- Section 2: Guest Account & Booking -->
+          <section class="form-section" id="guest-booking">
+            <h2>Guest Account &amp; Booking Flow</h2>
+
+            <fieldset>
+              <legend>Will guests need accounts, or should they be able to book as a guest?</legend>
+              <label class="choice"><input type="radio" name="accountMode" value="accounts_required" required /> Accounts required</label>
+              <label class="choice"><input type="radio" name="accountMode" value="guest_checkout" /> Guest checkout only</label>
+              <label class="choice"><input type="radio" name="accountMode" value="both" /> Both options</label>
+            </fieldset>
+
+            <label class="field" for="guestJourney">
+              Walk me through what you imagine a guest doing from arriving on the website to completing a reservation.
+              <textarea id="guestJourney" name="guestJourney" rows="5" required></textarea>
+            </label>
+
+            <fieldset>
+              <legend>Should reservations require owner approval or be instant?</legend>
+              <label class="choice"><input type="radio" name="bookingConfirmation" value="owner_approval" required /> Owner approval required</label>
+              <label class="choice"><input type="radio" name="bookingConfirmation" value="instant" /> Instant booking</label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Should guests be able to cancel their reservation online?</legend>
+              <label class="choice"><input type="radio" name="cancelOnline" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="cancelOnline" value="no" /> No</label>
+              <label class="choice"><input type="radio" name="cancelOnline" value="with_conditions" /> Yes, with conditions</label>
+            </fieldset>
+
+            <div id="cancel-conditions-panel" class="conditional-panel" hidden>
+              <label class="field" for="cancelConditions">
+                Describe the online cancellation conditions
+                <textarea id="cancelConditions" name="cancelConditions" rows="3"></textarea>
+              </label>
+            </div>
+          </section>
+
+          <!-- Section 3: Property Rules -->
+          <section class="form-section" id="property-rules">
+            <h2>Property Rules &amp; Policies</h2>
+
+            <fieldset>
+              <legend>Are there property-specific rules guests must agree to?</legend>
+              <label class="choice"><input type="radio" name="hasPropertyRules" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="hasPropertyRules" value="no" /> No</label>
+            </fieldset>
+
+            <div id="property-rules-text-panel" class="conditional-panel" hidden>
+              <label class="field" for="propertyRulesText">
+                What are the property-specific rules?
+                <textarea id="propertyRulesText" name="propertyRulesText" rows="4"></textarea>
+              </label>
+            </div>
+
+            <div class="field-grid">
+              <label class="field" for="minimumAge">
+                Minimum age
+                <input type="number" id="minimumAge" name="minimumAge" min="0" />
+              </label>
+              <label class="field" for="maximumGuests">
+                Maximum guests
+                <input type="number" id="maximumGuests" name="maximumGuests" min="1" />
+              </label>
+            </div>
+
+            <label class="field" for="pets">
+              Pets
+              <select id="pets" name="pets" required>
+                <option value="">Select a policy</option>
+                <option value="not_allowed">Not allowed</option>
+                <option value="allowed">Allowed</option>
+                <option value="case_by_case">Case by case</option>
+              </select>
+            </label>
+
+            <label class="field" for="petsNotes">
+              Pet policy notes (optional)
+              <textarea id="petsNotes" name="petsNotes" rows="2"></textarea>
+            </label>
+
+            <label class="field" for="eventsParties">
+              Events / parties
+              <select id="eventsParties" name="eventsParties" required>
+                <option value="">Select a policy</option>
+                <option value="not_allowed">Not allowed</option>
+                <option value="allowed">Allowed</option>
+                <option value="case_by_case">Case by case</option>
+              </select>
+            </label>
+
+            <label class="field" for="cancellationPolicies">
+              What are your cancellation policies?
+              <textarea id="cancellationPolicies" name="cancellationPolicies" rows="4" required></textarea>
+            </label>
+
+            <fieldset>
+              <legend>Are there liability waivers or agreements?</legend>
+              <label class="choice"><input type="radio" name="hasLiabilityWaivers" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="hasLiabilityWaivers" value="no" /> No</label>
+            </fieldset>
+
+            <div id="liability-waivers-panel" class="conditional-panel" hidden>
+              <label class="field" for="liabilityWaiversText">
+                Describe the liability waivers or agreements
+                <textarea id="liabilityWaiversText" name="liabilityWaiversText" rows="3"></textarea>
+              </label>
+            </div>
+
+            <fieldset>
+              <legend>Do guests need to sign anything before staying?</legend>
+              <label class="choice"><input type="radio" name="requiresSignature" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="requiresSignature" value="no" /> No</label>
+            </fieldset>
+
+            <div id="signature-details-panel" class="conditional-panel" hidden>
+              <label class="field" for="signatureDetails">
+                What must guests sign?
+                <textarea id="signatureDetails" name="signatureDetails" rows="3"></textarea>
+              </label>
+            </div>
+
+            <label class="field" for="localRegulations">
+              Are there local regulations or rental restrictions?
+              <textarea id="localRegulations" name="localRegulations" rows="4" required></textarea>
+            </label>
+
+            <fieldset>
+              <legend>Are there specific requirements around security deposits?</legend>
+              <label class="choice"><input type="radio" name="hasSecurityDeposit" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="hasSecurityDeposit" value="no" /> No</label>
+            </fieldset>
+
+            <div id="security-deposit-panel" class="conditional-panel" hidden>
+              <label class="field" for="securityDepositDetails">
+                Security deposit amount and terms
+                <textarea id="securityDepositDetails" name="securityDepositDetails" rows="3"></textarea>
+              </label>
+            </div>
+          </section>
+
+          <!-- Section 4: Availability -->
+          <section class="form-section" id="availability">
+            <h2>Availability &amp; Scheduling</h2>
+
+            <fieldset>
+              <legend>Do you want to manage availability and control dates?</legend>
+              <label class="choice"><input type="radio" name="manageAvailability" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="manageAvailability" value="no" /> No</label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Do you want to be able to block dates?</legend>
+              <label class="choice"><input type="radio" name="blockDates" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="blockDates" value="no" /> No</label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Are same-day reservations allowed?</legend>
+              <label class="choice"><input type="radio" name="sameDayReservations" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="sameDayReservations" value="no" /> No</label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Are check-in/check-out times fixed or do they vary?</legend>
+              <label class="choice"><input type="radio" name="checkInOutMode" value="fixed" required /> Fixed times</label>
+              <label class="choice"><input type="radio" name="checkInOutMode" value="flexible" /> Flexible / varies</label>
+            </fieldset>
+
+            <div id="fixed-times-panel" class="conditional-panel" hidden>
+              <div class="field-grid">
+                <label class="field" for="checkInTime">
+                  Check-in time
+                  <input type="time" id="checkInTime" name="checkInTime" />
+                </label>
+                <label class="field" for="checkOutTime">
+                  Check-out time
+                  <input type="time" id="checkOutTime" name="checkOutTime" />
+                </label>
+              </div>
+            </div>
+
+            <div id="flexible-times-panel" class="conditional-panel" hidden>
+              <label class="field" for="flexibleDetails">
+                Describe how check-in/check-out times vary
+                <textarea id="flexibleDetails" name="flexibleDetails" rows="3"></textarea>
+              </label>
+            </div>
+          </section>
+
+          <!-- Section 5: Payments & Fees -->
+          <section class="form-section" id="payments">
+            <h2>Payments &amp; Fees</h2>
+
+            <fieldset>
+              <legend>How should guests pay?</legend>
+              <label class="choice"><input type="checkbox" name="paymentMethods" value="credit_card" /> Credit card</label>
+              <label class="choice"><input type="checkbox" name="paymentMethods" value="debit_card" /> Debit card</label>
+              <label class="choice"><input type="checkbox" name="paymentMethods" value="paypal" /> PayPal</label>
+              <label class="choice"><input type="checkbox" name="paymentMethods" value="venmo" /> Venmo</label>
+              <label class="choice"><input type="checkbox" name="paymentMethods" value="bank_transfer" /> Bank transfer</label>
+              <label class="choice"><input type="checkbox" name="paymentMethods" value="cash" /> Cash</label>
+              <label class="choice"><input type="checkbox" name="paymentMethods" value="other" /> Other</label>
+            </fieldset>
+
+            <div id="payment-methods-other-panel" class="conditional-panel" hidden>
+              <label class="field" for="paymentMethodsOther">
+                Other payment methods
+                <textarea id="paymentMethodsOther" name="paymentMethodsOther" rows="2"></textarea>
+              </label>
+            </div>
+
+            <fieldset>
+              <legend>Should payment happen during booking?</legend>
+              <label class="choice"><input type="radio" name="payDuringBooking" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="payDuringBooking" value="no" /> No</label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Do you require full payment upfront or a deposit?</legend>
+              <label class="choice"><input type="radio" name="paymentTiming" value="full_upfront" required /> Full payment upfront</label>
+              <label class="choice"><input type="radio" name="paymentTiming" value="deposit_only" /> Deposit only at booking</label>
+              <label class="choice"><input type="radio" name="paymentTiming" value="either" /> Either is fine</label>
+            </fieldset>
+
+            <label class="field" for="pricePerNight">
+              How much do you want to charge per night? (USD)
+              <input type="number" id="pricePerNight" name="pricePerNight" min="0" step="0.01" />
+            </label>
+
+            <div class="field-grid field-grid--three">
+              <label class="field" for="cleaningFee">
+                Cleaning fee (USD)
+                <input type="number" id="cleaningFee" name="cleaningFee" min="0" step="0.01" />
+              </label>
+              <label class="field" for="serviceFee">
+                Service fee (USD)
+                <input type="number" id="serviceFee" name="serviceFee" min="0" step="0.01" />
+              </label>
+              <label class="field" for="petFee">
+                Pet fee (USD)
+                <input type="number" id="petFee" name="petFee" min="0" step="0.01" />
+              </label>
+            </div>
+
+            <label class="field" for="cancelBehavior">
+              What happens if a guest cancels?
+              <textarea id="cancelBehavior" name="cancelBehavior" rows="4" required></textarea>
+            </label>
+
+            <fieldset>
+              <legend>Should refunds happen automatically?</legend>
+              <label class="choice"><input type="radio" name="automaticRefunds" value="yes" required /> Yes, fully automatic</label>
+              <label class="choice"><input type="radio" name="automaticRefunds" value="no" /> No, manual review</label>
+              <label class="choice"><input type="radio" name="automaticRefunds" value="partial" /> Partially automatic</label>
+            </fieldset>
+
+            <div id="refund-details-panel" class="conditional-panel" hidden>
+              <label class="field" for="refundDetails">
+                Describe partial automatic refund rules
+                <textarea id="refundDetails" name="refundDetails" rows="3"></textarea>
+              </label>
+            </div>
+          </section>
+
+          <!-- Section 6: Pricing Rules -->
+          <section class="form-section" id="pricing-rules">
+            <h2>Pricing Rules</h2>
+
+            <fieldset>
+              <legend>Do different seasons have different pricing?</legend>
+              <label class="choice"><input type="radio" name="seasonalPricing" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="seasonalPricing" value="no" /> No</label>
+            </fieldset>
+
+            <div id="seasonal-pricing-panel" class="conditional-panel" hidden>
+              <label class="field" for="seasonalPricingDetails">
+                Describe seasonal pricing
+                <textarea id="seasonalPricingDetails" name="seasonalPricingDetails" rows="3"></textarea>
+              </label>
+            </div>
+
+            <fieldset>
+              <legend>Are there special rates for holidays or events?</legend>
+              <label class="choice"><input type="radio" name="holidayEventRates" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="holidayEventRates" value="no" /> No</label>
+            </fieldset>
+
+            <div id="holiday-rates-panel" class="conditional-panel" hidden>
+              <label class="field" for="holidayEventRatesDetails">
+                Describe holiday or event rates
+                <textarea id="holidayEventRatesDetails" name="holidayEventRatesDetails" rows="3"></textarea>
+              </label>
+            </div>
+          </section>
+
+          <!-- Section 7: Property Details -->
+          <section class="form-section" id="property-details">
+            <h2>Property Details</h2>
+
+            <label class="field" for="amenities">
+              What are the lake house amenities?
+              <textarea id="amenities" name="amenities" rows="5" required placeholder="e.g. dock, kayaks, fire pit, Wi-Fi"></textarea>
+            </label>
+
+            <label class="field" for="nearbyAttractions">
+              What are the nearby attractions?
+              <textarea id="nearbyAttractions" name="nearbyAttractions" rows="5" required placeholder="e.g. hiking trails, marina, restaurants"></textarea>
+            </label>
+          </section>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--secondary" id="clear-draft-btn">Clear draft</button>
+            <button type="submit" class="btn btn--primary">Submit questionnaire</button>
+          </div>
+        </form>
+      </main>
+    </div>
+
+    <script type="module" src="js/form.js"></script>
+  </body>
+</html>
