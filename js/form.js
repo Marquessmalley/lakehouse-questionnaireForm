@@ -49,42 +49,60 @@ function updateBudgetHelper(form) {
 }
 
 function updateAllConditionals(form) {
-  const cancelOnline = form.querySelector('input[name="cancelOnline"]:checked')?.value;
+  const cancelOnline = form.querySelector(
+    'input[name="cancelOnline"]:checked',
+  )?.value;
   const cancelPanel = document.getElementById("cancel-conditions-panel");
   if (cancelPanel) {
     cancelPanel.hidden = cancelOnline !== "with_conditions";
-    cancelPanel.setAttribute("aria-hidden", String(cancelOnline !== "with_conditions"));
+    cancelPanel.setAttribute(
+      "aria-hidden",
+      String(cancelOnline !== "with_conditions"),
+    );
   }
 
-  const hasRules = form.querySelector('input[name="hasPropertyRules"]:checked')?.value;
+  const hasRules = form.querySelector(
+    'input[name="hasPropertyRules"]:checked',
+  )?.value;
   const rulesPanel = document.getElementById("property-rules-text-panel");
   if (rulesPanel) {
     rulesPanel.hidden = hasRules !== "yes";
     rulesPanel.setAttribute("aria-hidden", String(hasRules !== "yes"));
   }
 
-  const hasWaivers = form.querySelector('input[name="hasLiabilityWaivers"]:checked')?.value;
+  const hasWaivers = form.querySelector(
+    'input[name="hasLiabilityWaivers"]:checked',
+  )?.value;
   const waiversPanel = document.getElementById("liability-waivers-panel");
   if (waiversPanel) {
     waiversPanel.hidden = hasWaivers !== "yes";
     waiversPanel.setAttribute("aria-hidden", String(hasWaivers !== "yes"));
   }
 
-  const requiresSignature = form.querySelector('input[name="requiresSignature"]:checked')?.value;
+  const requiresSignature = form.querySelector(
+    'input[name="requiresSignature"]:checked',
+  )?.value;
   const signaturePanel = document.getElementById("signature-details-panel");
   if (signaturePanel) {
     signaturePanel.hidden = requiresSignature !== "yes";
-    signaturePanel.setAttribute("aria-hidden", String(requiresSignature !== "yes"));
+    signaturePanel.setAttribute(
+      "aria-hidden",
+      String(requiresSignature !== "yes"),
+    );
   }
 
-  const hasDeposit = form.querySelector('input[name="hasSecurityDeposit"]:checked')?.value;
+  const hasDeposit = form.querySelector(
+    'input[name="hasSecurityDeposit"]:checked',
+  )?.value;
   const depositPanel = document.getElementById("security-deposit-panel");
   if (depositPanel) {
     depositPanel.hidden = hasDeposit !== "yes";
     depositPanel.setAttribute("aria-hidden", String(hasDeposit !== "yes"));
   }
 
-  const checkMode = form.querySelector('input[name="checkInOutMode"]:checked')?.value;
+  const checkMode = form.querySelector(
+    'input[name="checkInOutMode"]:checked',
+  )?.value;
   const fixedPanel = document.getElementById("fixed-times-panel");
   const flexiblePanel = document.getElementById("flexible-times-panel");
   if (fixedPanel) {
@@ -96,28 +114,36 @@ function updateAllConditionals(form) {
     flexiblePanel.setAttribute("aria-hidden", String(checkMode !== "flexible"));
   }
 
-  const paymentOther = form.querySelector('input[name="paymentMethods"][value="other"]:checked');
+  const paymentOther = form.querySelector(
+    'input[name="paymentMethods"][value="other"]:checked',
+  );
   const otherPanel = document.getElementById("payment-methods-other-panel");
   if (otherPanel) {
     otherPanel.hidden = !paymentOther;
     otherPanel.setAttribute("aria-hidden", String(!paymentOther));
   }
 
-  const refunds = form.querySelector('input[name="automaticRefunds"]:checked')?.value;
+  const refunds = form.querySelector(
+    'input[name="automaticRefunds"]:checked',
+  )?.value;
   const refundPanel = document.getElementById("refund-details-panel");
   if (refundPanel) {
     refundPanel.hidden = refunds !== "partial";
     refundPanel.setAttribute("aria-hidden", String(refunds !== "partial"));
   }
 
-  const seasonal = form.querySelector('input[name="seasonalPricing"]:checked')?.value;
+  const seasonal = form.querySelector(
+    'input[name="seasonalPricing"]:checked',
+  )?.value;
   const seasonalPanel = document.getElementById("seasonal-pricing-panel");
   if (seasonalPanel) {
     seasonalPanel.hidden = seasonal !== "yes";
     seasonalPanel.setAttribute("aria-hidden", String(seasonal !== "yes"));
   }
 
-  const holiday = form.querySelector('input[name="holidayEventRates"]:checked')?.value;
+  const holiday = form.querySelector(
+    'input[name="holidayEventRates"]:checked',
+  )?.value;
   const holidayPanel = document.getElementById("holiday-rates-panel");
   if (holidayPanel) {
     holidayPanel.hidden = holiday !== "yes";
@@ -167,14 +193,19 @@ function buildSectionNav() {
 
 function initIntersectionObserver() {
   const links = document.querySelectorAll(".section-nav__link");
-  const sections = SECTIONS.map((s) => document.getElementById(s.id)).filter(Boolean);
+  const sections = SECTIONS.map((s) => document.getElementById(s.id)).filter(
+    Boolean,
+  );
 
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           links.forEach((link) => {
-            link.classList.toggle("is-active", link.getAttribute("href") === `#${entry.target.id}`);
+            link.classList.toggle(
+              "is-active",
+              link.getAttribute("href") === `#${entry.target.id}`,
+            );
           });
         }
       });
@@ -190,12 +221,15 @@ function setSubmitState(form, submitting) {
   const clearBtn = document.getElementById("clear-draft-btn");
   if (submitBtn) {
     submitBtn.disabled = submitting;
-    submitBtn.textContent = submitting ? "Submitting..." : "Submit questionnaire";
+    submitBtn.textContent = submitting
+      ? "Submitting..."
+      : "Submit questionnaire";
   }
   if (clearBtn) clearBtn.disabled = submitting;
 }
 
 export function initForm() {
+  console.log("what up doe!");
   const form = document.getElementById("discovery-form");
   if (!form) return;
 
@@ -205,7 +239,11 @@ export function initForm() {
   const draft = loadDraft();
   if (draft) {
     hydrateForm(form, draft);
-    showBanner("status-banner", "Draft restored from your last session.", "info");
+    showBanner(
+      "status-banner",
+      "Draft restored from your last session.",
+      "info",
+    );
   }
 
   updateAllConditionals(form);
@@ -232,7 +270,8 @@ export function initForm() {
   });
 
   document.getElementById("clear-draft-btn")?.addEventListener("click", () => {
-    if (!window.confirm("Clear your saved draft? This cannot be undone.")) return;
+    if (!window.confirm("Clear your saved draft? This cannot be undone."))
+      return;
     clearDraft();
     form.reset();
     updateAllConditionals(form);
@@ -255,8 +294,14 @@ export function initForm() {
     showWarnings(warnings);
 
     if (!valid) {
-      showBanner("status-banner", "Please fix the errors below before submitting.", "error");
-      document.getElementById("error-panel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      showBanner(
+        "status-banner",
+        "Please fix the errors below before submitting.",
+        "error",
+      );
+      document
+        .getElementById("error-panel")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
 
@@ -272,7 +317,9 @@ export function initForm() {
         `Thank you! Your responses were submitted successfully (reference: ${docId}).`,
         "success",
       );
-      document.getElementById("success-banner")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      document
+        .getElementById("success-banner")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
     } catch (error) {
       showBanner(
         "status-banner",

@@ -20,7 +20,11 @@ function isConfigReady() {
 
 export function initFirebase() {
   if (!isConfigReady()) {
-    return { ready: false, reason: "Firebase is not configured. Update js/config.js with your project values." };
+    return {
+      ready: false,
+      reason:
+        "Firebase is not configured. Update js/config.js with your project values.",
+    };
   }
   if (!db) {
     const app = initializeApp(firebaseConfig);

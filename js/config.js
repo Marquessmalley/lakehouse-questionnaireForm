@@ -4,10 +4,11 @@ export const COLLECTION_NAME = "discoveryQuestionnaires";
 
 // Replace with your Firebase project config from the Firebase Console or Firebase MCP.
 export const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: "AIzaSyA9E95998vUg6UuonPpfnmHR5fh7W93H2U",
+  authDomain: "lakehouse-app-f34ee.firebaseapp.com",
+  projectId: "lakehouse-app-f34ee",
+  storageBucket: "lakehouse-app-f34ee.firebasestorage.app",
+  messagingSenderId: "455031907890",
+  appId: "1:455031907890:web:8b637681521183542f3e2b",
+  measurementId: "G-91FM7LCTZ8",
 };
