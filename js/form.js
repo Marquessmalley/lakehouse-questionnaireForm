@@ -1,20 +1,19 @@
 import {
   serializeFromForm,
   hydrateForm,
-  validateQuestionnaire,
-  getBudgetSoftWarning,
+  getCompletionPercent,
 } from "./models/questionnaire.js";
 import { loadDraft, saveDraft, clearDraft } from "./storage.js";
 import { submitQuestionnaire, isFirebaseConfigured } from "./firebase.js";
 
 const SECTIONS = [
-  { id: "client-budget", label: "Client Budget" },
   { id: "guest-booking", label: "Guest & Booking" },
   { id: "property-rules", label: "Property Rules" },
   { id: "availability", label: "Availability" },
   { id: "payments", label: "Payments & Fees" },
   { id: "pricing-rules", label: "Pricing Rules" },
   { id: "property-details", label: "Property Details" },
+  { id: "client-budget", label: "Client Budget" },
 ];
 
 let saveTimer = null;
@@ -29,23 +28,11 @@ function debouncedSave(form) {
 
 function updateProgress(form) {
   const data = serializeFromForm(form);
-  const { errors } = validateQuestionnaire(data);
-  const totalRequired = 7;
-  const completed = totalRequired - Math.min(errors.length, totalRequired);
+  const percent = getCompletionPercent(data);
   const progressBar = document.getElementById("progress-bar");
   const progressText = document.getElementById("progress-text");
-  const percent = Math.round((completed / totalRequired) * 100);
   if (progressBar) progressBar.style.width = `${percent}%`;
   if (progressText) progressText.textContent = `${percent}% complete`;
-}
-
-function updateBudgetHelper(form) {
-  const warning = getBudgetSoftWarning(serializeFromForm(form));
-  const helper = document.getElementById("budget-not-sure-helper");
-  if (helper) {
-    helper.hidden = !warning;
-    helper.textContent = warning || "";
-  }
 }
 
 function updateAllConditionals(form) {
@@ -149,8 +136,6 @@ function updateAllConditionals(form) {
     holidayPanel.hidden = holiday !== "yes";
     holidayPanel.setAttribute("aria-hidden", String(holiday !== "yes"));
   }
-
-  updateBudgetHelper(form);
 }
 
 function showBanner(id, message, type = "info") {
@@ -289,21 +274,6 @@ export function initForm() {
     hideBanner("success-banner");
 
     const data = serializeFromForm(form);
-    const { valid, errors, warnings } = validateQuestionnaire(data);
-    showErrors(errors);
-    showWarnings(warnings);
-
-    if (!valid) {
-      showBanner(
-        "status-banner",
-        "Please fix the errors below before submitting.",
-        "error",
-      );
-      document
-        .getElementById("error-panel")
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
-      return;
-    }
 
     setSubmitState(form, true);
     try {

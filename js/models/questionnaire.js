@@ -269,120 +269,38 @@ export function hydrateForm(form, data) {
   setField(form, "nearbyAttractions", details.nearbyAttractions);
 }
 
-function isEmpty(value) {
-  return value === null || value === undefined || value === "";
-}
-
-export function validateQuestionnaire(data) {
-  const errors = [];
-  const warnings = [];
-
-  if (!data.clientBudget?.budgetRange) {
-    errors.push("Please select a budget range.");
+function countAnsweredValues(value) {
+  if (value === null || value === undefined) return { answered: 0, total: 0 };
+  if (typeof value === "boolean") return { answered: 1, total: 1 };
+  if (typeof value === "number") return { answered: 1, total: 1 };
+  if (typeof value === "string") return { answered: value.trim() ? 1 : 0, total: 1 };
+  if (Array.isArray(value)) {
+    return {
+      answered: value.length > 0 ? 1 : 0,
+      total: 1,
+    };
   }
-  if (!data.clientBudget?.budgetType) {
-    errors.push("Please indicate whether your budget is one-time or includes ongoing costs.");
-  }
-  if (
-    data.clientBudget?.budgetRange === "not_sure" &&
-    isEmpty(data.clientBudget?.targetSpend) &&
-    isEmpty(data.clientBudget?.budgetNotes)
-  ) {
-    warnings.push(
-      "You selected \"Not sure\" for budget range. Consider adding a target amount or notes to help us scope the project.",
+  if (typeof value === "object") {
+    return Object.values(value).reduce(
+      (acc, nested) => {
+        const result = countAnsweredValues(nested);
+        return {
+          answered: acc.answered + result.answered,
+          total: acc.total + result.total,
+        };
+      },
+      { answered: 0, total: 0 },
     );
   }
-
-  if (!data.guestAccountBooking?.accountMode) {
-    errors.push("Please select whether guests need accounts or can book as guests.");
-  }
-  if (!data.guestAccountBooking?.guestJourney) {
-    errors.push("Please describe the guest booking journey.");
-  }
-  if (!data.guestAccountBooking?.bookingConfirmation) {
-    errors.push("Please select a booking confirmation approach.");
-  }
-  if (!data.guestAccountBooking?.cancelOnline) {
-    errors.push("Please indicate whether guests can cancel online.");
-  }
-
-  if (data.propertyRules?.hasPropertyRules === null) {
-    errors.push("Please indicate whether there are property-specific rules.");
-  }
-  if (!data.propertyRules?.pets) errors.push("Please select a pets policy.");
-  if (!data.propertyRules?.eventsParties) {
-    errors.push("Please select an events/parties policy.");
-  }
-  if (!data.propertyRules?.cancellationPolicies) {
-    errors.push("Please describe your cancellation policies.");
-  }
-  if (data.propertyRules?.hasLiabilityWaivers === null) {
-    errors.push("Please indicate whether liability waivers apply.");
-  }
-  if (data.propertyRules?.requiresSignature === null) {
-    errors.push("Please indicate whether guests must sign anything before staying.");
-  }
-  if (!data.propertyRules?.localRegulations) {
-    errors.push("Please describe local regulations or rental restrictions.");
-  }
-  if (data.propertyRules?.hasSecurityDeposit === null) {
-    errors.push("Please indicate whether security deposits are required.");
-  }
-
-  if (data.availability?.manageAvailability === null) {
-    errors.push("Please indicate whether you want to manage availability.");
-  }
-  if (data.availability?.blockDates === null) {
-    errors.push("Please indicate whether you want to block dates.");
-  }
-  if (data.availability?.sameDayReservations === null) {
-    errors.push("Please indicate whether same-day reservations are allowed.");
-  }
-  if (!data.availability?.checkInOutMode) {
-    errors.push("Please select whether check-in/out times are fixed or flexible.");
-  }
-
-  if (!data.payments?.paymentMethods?.length) {
-    errors.push("Please select at least one guest payment method.");
-  }
-  if (data.payments?.payDuringBooking === null) {
-    errors.push("Please indicate whether payment happens during booking.");
-  }
-  if (!data.payments?.paymentTiming) {
-    errors.push("Please select a payment timing preference.");
-  }
-  if (!data.payments?.cancelBehavior) {
-    errors.push("Please describe what happens if a guest cancels.");
-  }
-  if (!data.payments?.automaticRefunds) {
-    errors.push("Please select an automatic refunds preference.");
-  }
-
-  if (data.pricingRules?.seasonalPricing === null) {
-    errors.push("Please indicate whether seasonal pricing applies.");
-  }
-  if (data.pricingRules?.holidayEventRates === null) {
-    errors.push("Please indicate whether holiday or event rates apply.");
-  }
-
-  if (!data.propertyDetails?.amenities) {
-    errors.push("Please list the lake house amenities.");
-  }
-  if (!data.propertyDetails?.nearbyAttractions) {
-    errors.push("Please list nearby attractions.");
-  }
-
-  return { valid: errors.length === 0, errors, warnings };
+  return { answered: 0, total: 0 };
 }
 
-export function getBudgetSoftWarning(data) {
-  const budget = data.clientBudget || {};
-  if (
-    budget.budgetRange === "not_sure" &&
-    isEmpty(budget.targetSpend) &&
-    isEmpty(budget.budgetNotes)
-  ) {
-    return 'You selected "Not sure" for budget range. Adding a target amount or notes helps us recommend the right scope.';
-  }
-  return null;
+export function getCompletionPercent(data) {
+  const { answered, total } = countAnsweredValues(data);
+  if (total === 0) return 0;
+  return Math.round((answered / total) * 100);
+}
+
+export function validateQuestionnaire() {
+  return { valid: true, errors: [], warnings: [] };
 }

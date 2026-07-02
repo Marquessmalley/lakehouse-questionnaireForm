@@ -12,8 +12,8 @@
         <p class="eyebrow">Lake House Rental Web App</p>
         <h1>Discovery Questionnaire</h1>
         <p class="lede">
-          Help us understand your vision for the lake house rental experience. Your answers
-          autosave as you go.
+          Help us understand your vision for the lake house rental experience. All questions
+          are optional — answer what you can. Your responses autosave as you go.
         </p>
         <div class="progress" aria-label="Form progress">
           <div class="progress__track">
@@ -43,65 +43,31 @@
         </div>
 
         <form id="discovery-form" novalidate>
-          <!-- Section 1: Client Budget -->
-          <section class="form-section" id="client-budget">
-            <h2>Client Budget &amp; Project Spend</h2>
-
-            <fieldset>
-              <legend>What is your approximate budget range for this project?</legend>
-              <label class="choice"><input type="radio" name="budgetRange" value="under_5k" required /> Under $5,000</label>
-              <label class="choice"><input type="radio" name="budgetRange" value="5k_10k" /> $5,000 – $10,000</label>
-              <label class="choice"><input type="radio" name="budgetRange" value="10k_25k" /> $10,000 – $25,000</label>
-              <label class="choice"><input type="radio" name="budgetRange" value="25k_50k" /> $25,000 – $50,000</label>
-              <label class="choice"><input type="radio" name="budgetRange" value="50k_plus" /> $50,000+</label>
-              <label class="choice"><input type="radio" name="budgetRange" value="not_sure" /> Not sure yet</label>
-            </fieldset>
-
-            <p id="budget-not-sure-helper" class="helper helper--warning" hidden></p>
-
-            <label class="field" for="targetSpend">
-              How much are you looking to spend on this project? (specific target, USD)
-              <input type="number" id="targetSpend" name="targetSpend" min="0" step="100" placeholder="e.g. 15000" />
-            </label>
-
-            <fieldset>
-              <legend>Is this a one-time build budget or does it include ongoing costs?</legend>
-              <label class="choice"><input type="radio" name="budgetType" value="one_time_only" required /> One-time build only</label>
-              <label class="choice"><input type="radio" name="budgetType" value="includes_ongoing" /> Includes ongoing costs (hosting, maintenance, etc.)</label>
-              <label class="choice"><input type="radio" name="budgetType" value="unsure" /> Not sure yet</label>
-            </fieldset>
-
-            <label class="field" for="budgetNotes">
-              Any budget constraints, phasing, or priorities we should know?
-              <textarea id="budgetNotes" name="budgetNotes" rows="4" placeholder="Optional — e.g. phased rollout, must-haves vs nice-to-haves"></textarea>
-            </label>
-          </section>
-
-          <!-- Section 2: Guest Account & Booking -->
+          <!-- Section 1: Guest Account & Booking -->
           <section class="form-section" id="guest-booking">
             <h2>Guest Account &amp; Booking Flow</h2>
 
             <fieldset>
               <legend>Will guests need accounts, or should they be able to book as a guest?</legend>
-              <label class="choice"><input type="radio" name="accountMode" value="accounts_required" required /> Accounts required</label>
+              <label class="choice"><input type="radio" name="accountMode" value="accounts_required" /> Accounts</label>
               <label class="choice"><input type="radio" name="accountMode" value="guest_checkout" /> Guest checkout only</label>
               <label class="choice"><input type="radio" name="accountMode" value="both" /> Both options</label>
             </fieldset>
 
             <label class="field" for="guestJourney">
               Walk me through what you imagine a guest doing from arriving on the website to completing a reservation.
-              <textarea id="guestJourney" name="guestJourney" rows="5" required></textarea>
+              <textarea id="guestJourney" name="guestJourney" rows="5"></textarea>
             </label>
 
             <fieldset>
               <legend>Should reservations require owner approval or be instant?</legend>
-              <label class="choice"><input type="radio" name="bookingConfirmation" value="owner_approval" required /> Owner approval required</label>
+              <label class="choice"><input type="radio" name="bookingConfirmation" value="owner_approval" /> Owner approval</label>
               <label class="choice"><input type="radio" name="bookingConfirmation" value="instant" /> Instant booking</label>
             </fieldset>
 
             <fieldset>
               <legend>Should guests be able to cancel their reservation online?</legend>
-              <label class="choice"><input type="radio" name="cancelOnline" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="cancelOnline" value="yes" /> Yes</label>
               <label class="choice"><input type="radio" name="cancelOnline" value="no" /> No</label>
               <label class="choice"><input type="radio" name="cancelOnline" value="with_conditions" /> Yes, with conditions</label>
             </fieldset>
@@ -120,7 +86,7 @@
 
             <fieldset>
               <legend>Are there property-specific rules guests must agree to?</legend>
-              <label class="choice"><input type="radio" name="hasPropertyRules" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="hasPropertyRules" value="yes" /> Yes</label>
               <label class="choice"><input type="radio" name="hasPropertyRules" value="no" /> No</label>
             </fieldset>
 
@@ -144,7 +110,7 @@
 
             <label class="field" for="pets">
               Pets
-              <select id="pets" name="pets" required>
+              <select id="pets" name="pets">
                 <option value="">Select a policy</option>
                 <option value="not_allowed">Not allowed</option>
                 <option value="allowed">Allowed</option>
@@ -159,7 +125,7 @@
 
             <label class="field" for="eventsParties">
               Events / parties
-              <select id="eventsParties" name="eventsParties" required>
+              <select id="eventsParties" name="eventsParties">
                 <option value="">Select a policy</option>
                 <option value="not_allowed">Not allowed</option>
                 <option value="allowed">Allowed</option>
@@ -169,12 +135,12 @@
 
             <label class="field" for="cancellationPolicies">
               What are your cancellation policies?
-              <textarea id="cancellationPolicies" name="cancellationPolicies" rows="4" required></textarea>
+              <textarea id="cancellationPolicies" name="cancellationPolicies" rows="4"></textarea>
             </label>
 
             <fieldset>
               <legend>Are there liability waivers or agreements?</legend>
-              <label class="choice"><input type="radio" name="hasLiabilityWaivers" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="hasLiabilityWaivers" value="yes" /> Yes</label>
               <label class="choice"><input type="radio" name="hasLiabilityWaivers" value="no" /> No</label>
             </fieldset>
 
@@ -187,7 +153,7 @@
 
             <fieldset>
               <legend>Do guests need to sign anything before staying?</legend>
-              <label class="choice"><input type="radio" name="requiresSignature" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="requiresSignature" value="yes" /> Yes</label>
               <label class="choice"><input type="radio" name="requiresSignature" value="no" /> No</label>
             </fieldset>
 
@@ -200,12 +166,12 @@
 
             <label class="field" for="localRegulations">
               Are there local regulations or rental restrictions?
-              <textarea id="localRegulations" name="localRegulations" rows="4" required></textarea>
+              <textarea id="localRegulations" name="localRegulations" rows="4"></textarea>
             </label>
 
             <fieldset>
               <legend>Are there specific requirements around security deposits?</legend>
-              <label class="choice"><input type="radio" name="hasSecurityDeposit" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="hasSecurityDeposit" value="yes" /> Yes</label>
               <label class="choice"><input type="radio" name="hasSecurityDeposit" value="no" /> No</label>
             </fieldset>
 
@@ -223,25 +189,25 @@
 
             <fieldset>
               <legend>Do you want to manage availability and control dates?</legend>
-              <label class="choice"><input type="radio" name="manageAvailability" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="manageAvailability" value="yes" /> Yes</label>
               <label class="choice"><input type="radio" name="manageAvailability" value="no" /> No</label>
             </fieldset>
 
             <fieldset>
               <legend>Do you want to be able to block dates?</legend>
-              <label class="choice"><input type="radio" name="blockDates" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="blockDates" value="yes" /> Yes</label>
               <label class="choice"><input type="radio" name="blockDates" value="no" /> No</label>
             </fieldset>
 
             <fieldset>
               <legend>Are same-day reservations allowed?</legend>
-              <label class="choice"><input type="radio" name="sameDayReservations" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="sameDayReservations" value="yes" /> Yes</label>
               <label class="choice"><input type="radio" name="sameDayReservations" value="no" /> No</label>
             </fieldset>
 
             <fieldset>
               <legend>Are check-in/check-out times fixed or do they vary?</legend>
-              <label class="choice"><input type="radio" name="checkInOutMode" value="fixed" required /> Fixed times</label>
+              <label class="choice"><input type="radio" name="checkInOutMode" value="fixed" /> Fixed times</label>
               <label class="choice"><input type="radio" name="checkInOutMode" value="flexible" /> Flexible / varies</label>
             </fieldset>
 
@@ -290,13 +256,13 @@
 
             <fieldset>
               <legend>Should payment happen during booking?</legend>
-              <label class="choice"><input type="radio" name="payDuringBooking" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="payDuringBooking" value="yes" /> Yes</label>
               <label class="choice"><input type="radio" name="payDuringBooking" value="no" /> No</label>
             </fieldset>
 
             <fieldset>
               <legend>Do you require full payment upfront or a deposit?</legend>
-              <label class="choice"><input type="radio" name="paymentTiming" value="full_upfront" required /> Full payment upfront</label>
+              <label class="choice"><input type="radio" name="paymentTiming" value="full_upfront" /> Full payment upfront</label>
               <label class="choice"><input type="radio" name="paymentTiming" value="deposit_only" /> Deposit only at booking</label>
               <label class="choice"><input type="radio" name="paymentTiming" value="either" /> Either is fine</label>
             </fieldset>
@@ -323,12 +289,12 @@
 
             <label class="field" for="cancelBehavior">
               What happens if a guest cancels?
-              <textarea id="cancelBehavior" name="cancelBehavior" rows="4" required></textarea>
+              <textarea id="cancelBehavior" name="cancelBehavior" rows="4"></textarea>
             </label>
 
             <fieldset>
               <legend>Should refunds happen automatically?</legend>
-              <label class="choice"><input type="radio" name="automaticRefunds" value="yes" required /> Yes, fully automatic</label>
+              <label class="choice"><input type="radio" name="automaticRefunds" value="yes" /> Yes, fully automatic</label>
               <label class="choice"><input type="radio" name="automaticRefunds" value="no" /> No, manual review</label>
               <label class="choice"><input type="radio" name="automaticRefunds" value="partial" /> Partially automatic</label>
             </fieldset>
@@ -347,7 +313,7 @@
 
             <fieldset>
               <legend>Do different seasons have different pricing?</legend>
-              <label class="choice"><input type="radio" name="seasonalPricing" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="seasonalPricing" value="yes" /> Yes</label>
               <label class="choice"><input type="radio" name="seasonalPricing" value="no" /> No</label>
             </fieldset>
 
@@ -360,7 +326,7 @@
 
             <fieldset>
               <legend>Are there special rates for holidays or events?</legend>
-              <label class="choice"><input type="radio" name="holidayEventRates" value="yes" required /> Yes</label>
+              <label class="choice"><input type="radio" name="holidayEventRates" value="yes" /> Yes</label>
               <label class="choice"><input type="radio" name="holidayEventRates" value="no" /> No</label>
             </fieldset>
 
@@ -378,12 +344,44 @@
 
             <label class="field" for="amenities">
               What are the lake house amenities?
-              <textarea id="amenities" name="amenities" rows="5" required placeholder="e.g. dock, kayaks, fire pit, Wi-Fi"></textarea>
+              <textarea id="amenities" name="amenities" rows="5" placeholder="e.g. dock, kayaks, fire pit, Wi-Fi"></textarea>
             </label>
 
             <label class="field" for="nearbyAttractions">
               What are the nearby attractions?
-              <textarea id="nearbyAttractions" name="nearbyAttractions" rows="5" required placeholder="e.g. hiking trails, marina, restaurants"></textarea>
+              <textarea id="nearbyAttractions" name="nearbyAttractions" rows="5" placeholder="e.g. hiking trails, marina, restaurants"></textarea>
+            </label>
+          </section>
+
+          <!-- Section 7: Client Budget -->
+          <section class="form-section" id="client-budget">
+            <h2>Client Budget &amp; Project Spend</h2>
+
+            <fieldset>
+              <legend>What is your approximate budget range for this project?</legend>
+              <label class="choice"><input type="radio" name="budgetRange" value="under_5k" /> Under $5,000</label>
+              <label class="choice"><input type="radio" name="budgetRange" value="5k_10k" /> $5,000 – $10,000</label>
+              <label class="choice"><input type="radio" name="budgetRange" value="10k_25k" /> $10,000 – $25,000</label>
+              <label class="choice"><input type="radio" name="budgetRange" value="25k_50k" /> $25,000 – $50,000</label>
+              <label class="choice"><input type="radio" name="budgetRange" value="50k_plus" /> $50,000+</label>
+              <label class="choice"><input type="radio" name="budgetRange" value="not_sure" /> Not sure yet</label>
+            </fieldset>
+
+            <label class="field" for="targetSpend">
+              How much are you looking to spend on this project? (specific target, USD)
+              <input type="number" id="targetSpend" name="targetSpend" min="0" step="100" placeholder="e.g. 15000" />
+            </label>
+
+            <fieldset>
+              <legend>Is this a one-time build budget or does it include ongoing costs?</legend>
+              <label class="choice"><input type="radio" name="budgetType" value="one_time_only" /> One-time build only</label>
+              <label class="choice"><input type="radio" name="budgetType" value="includes_ongoing" /> Includes ongoing costs (hosting, maintenance, etc.)</label>
+              <label class="choice"><input type="radio" name="budgetType" value="unsure" /> Not sure yet</label>
+            </fieldset>
+
+            <label class="field" for="budgetNotes">
+              Any budget constraints, phasing, or priorities we should know?
+              <textarea id="budgetNotes" name="budgetNotes" rows="4" placeholder="e.g. phased rollout, must-haves vs nice-to-haves"></textarea>
             </label>
           </section>
 

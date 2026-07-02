@@ -1,11 +1,6 @@
 # Lake House Rental Web App — Discovery Questionnaire
 
-## Client Budget & Project Spend
-
-- What is your approximate budget range for this project?
-- How much are you looking to spend on this project? (specific target)
-- Is this a one-time build budget or does it include ongoing costs?
-- Any budget constraints, phasing, or priorities we should know?
+_All questions are optional._
 
 ## Guest Account & Booking Flow
 
@@ -57,3 +52,10 @@
 
 - What are the lake house amenities?
 - What are the nearby attractions?
+
+## Client Budget & Project Spend
+
+- What is your approximate budget range for this project?
+- How much are you looking to spend on this project? (specific target)
+- Is this a one-time build budget or does it include ongoing costs?
+- Any budget constraints, phasing, or priorities we should know?
